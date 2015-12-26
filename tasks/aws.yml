@@ -22,7 +22,7 @@
 - set_fact: elasticsearch_plugin_aws_url="cloud-aws"
   when: "{{ elasticsearch_version | version_compare('2.0', '>=') }}"
 - name: aws | Installing AWS Plugin
-  shell: bin/plugin -install {{ elasticsearch_plugin_aws_url }}
+  shell: bin/plugin install {{ elasticsearch_plugin_aws_url }}
     chdir={{ elasticsearch_home_dir }}
   register: aws_plugins_installed
   changed_when: "'Installed' in aws_plugins_installed.stdout"
