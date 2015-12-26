@@ -18,8 +18,11 @@
     chdir={{ elasticsearch_home_dir }}
   when: elasticsearch_plugin_aws_reinstall is defined and elasticsearch_plugin_aws_reinstall == True
   ignore_errors: yes
+- set_fact: elasticsearch_plugin_aws_url="elasticsearch/elasticsearch-cloud-aws/{{ elasticsearch_plugin_aws_version }}"
+- set_fact: elasticsearch_plugin_aws_url="cloud-aws"
+  when: "{{ elasticsearch_version | version_compare('2.0', '>=') }}"
 - name: aws | Installing AWS Plugin
-  shell: bin/plugin -install elasticsearch/elasticsearch-cloud-aws/{{ elasticsearch_plugin_aws_version }}
+  shell: bin/plugin -install {{ elasticsearch_plugin_aws_url }}
     chdir={{ elasticsearch_home_dir }}
   register: aws_plugins_installed
   changed_when: "'Installed' in aws_plugins_installed.stdout"
